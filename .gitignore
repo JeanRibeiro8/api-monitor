@@ -8,3 +8,12 @@ htmlcov/
 .idea/
 .vscode/
 .DS_Store
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment files
+.env.*
+!.env.example
