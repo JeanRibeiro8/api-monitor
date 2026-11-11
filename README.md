@@ -1,153 +1,293 @@
-<div align="center">
+ <div align="center">
 
 # API Monitor
 
-### REST API for monitoring external HTTP services
+### A REST API for Monitoring External HTTP Services
 
-Monitor endpoints, measure response times, and retain availability history.
+Monitor external endpoints, measure response times, track availability, and maintain historical check records.
 
-![Python](https://img.shields.io/badge/Python-3.12+-3776AB?logo=python&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688?logo=fastapi&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
-![Tests](https://img.shields.io/badge/Tests-pytest-0A9EDC?logo=pytest&logoColor=white)
+[![Python](https://img.shields.io/badge/Python-3.12+-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-Framework-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-4169E1?style=flat-square&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2.0-D71F00?style=flat-square)](https://www.sqlalchemy.org/)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)
+
+<br />
+
+[About](#about-the-project) •
+[Features](#key-features) •
+[Technologies](#technology-stack) •
+[Preview](#preview) •
+[Installation](#getting-started) •
+[API](#api-endpoints)
 
 </div>
 
-## About
+---
 
-API Monitor is a backend portfolio project that provides a REST interface for registering external HTTP endpoints and manually checking their availability. Each check stores the HTTP status code (when a response exists), response time, availability result, error information, and timestamp.
+## About the Project
 
-## Features
+API Monitor is a backend project designed to monitor external HTTP services through a RESTful API.
 
-- Monitor CRUD operations.
-- Manual HTTP checks with configurable timeout.
-- Distinguishes HTTP error responses (such as 404 and 500) from connection failures.
-- Check history and latest status.
-- Dashboard summary.
-- PostgreSQL persistence with SQLAlchemy 2.0 and Alembic.
+It allows users to register and manage monitored endpoints, manually execute availability checks, measure response times, and store historical results.
+
+Each check records relevant information, including HTTP status codes when available, response time, availability status, error details, and execution timestamp.
+
+The project was developed to explore backend development concepts such as REST API design, database integration, HTTP communication, automated testing, containerization, and CI workflows.
+
+## Key Features
+
+### Monitor Management
+- Create, retrieve, update, and delete monitors.
+- List registered endpoints.
+- Configure monitor information and check intervals.
+- Enable or disable individual monitors.
+
+### HTTP Monitoring
+- Execute manual HTTP availability checks.
+- Measure request response times.
+- Capture HTTP status codes.
+- Distinguish HTTP error responses from connection failures.
+- Configure request timeouts.
+- Store individual check results.
+
+### Monitoring History
+- Retrieve historical check records.
+- Access the latest monitoring status.
+- Track availability and response information over time.
+
+### API Overview
+- Dashboard summary with monitoring counters.
+- Health endpoint for API and database status.
+
+### Infrastructure and Quality
+- PostgreSQL persistence.
+- SQLAlchemy 2.0 database integration.
+- Alembic database migrations.
 - Docker Compose environment.
-- pytest suite and GitHub Actions CI.
+- Automated tests with pytest.
+- GitHub Actions CI workflow.
 
-## Technology
+## Technology Stack
 
-| Area | Tools |
+| Category | Technologies |
 |---|---|
-| API | Python, FastAPI, Pydantic |
-| HTTP client | HTTPX |
-| Database | PostgreSQL, SQLAlchemy 2.0 |
+| Language | Python 3.12+ |
+| API Framework | FastAPI |
+| Data Validation | Pydantic |
+| HTTP Client | HTTPX |
+| ORM | SQLAlchemy 2.0 |
+| Database | PostgreSQL |
 | Migrations | Alembic |
-| Tests | pytest, FastAPI TestClient |
-| Delivery | Docker, Docker Compose, GitHub Actions |
+| Testing | pytest, FastAPI TestClient |
+| Containerization | Docker, Docker Compose |
+| CI | GitHub Actions |
 
-## Getting started
+## Preview
 
-### With Docker
+The application interface preview is displayed below.
 
-1. Copy the environment template:
+<div align="center">
+  <img src="./public/api-monitor.png" alt="API Monitor application preview" width="100%" />
+  <p><em>API Monitor — Application Preview</em></p>
+</div>
 
-   ```bash
-   cp .env.example .env
-   ```
+## Architecture
 
-2. Start the application and database:
+The application follows a layered structure that separates HTTP routes, data validation, business logic, and database access.
 
-   ```bash
-   docker compose up --build
-   ```
+```text
+api-monitor/
+│
+├── app/
+│   ├── api/
+│   │   └── routes/          # API endpoints
+│   │
+│   ├── core/                # Application settings
+│   │
+│   ├── db/
+│   │   └── models/          # SQLAlchemy models
+│   │
+│   ├── repositories/        # Database access
+│   │
+│   ├── schemas/             # Pydantic schemas
+│   │
+│   └── services/            # Business logic and HTTP checks
+│
+├── migrations/              # Alembic migrations
+├── tests/                   # Automated tests
+├── public/                  # Project preview assets
+├── .github/
+│   └── workflows/           # CI pipeline
+│
+├── Dockerfile
+├── docker-compose.yml
+├── alembic.ini
+├── requirements.txt
+└── .env.example
+```
 
-3. Open the interactive API documentation at http://localhost:8000/docs.
+## Getting Started
 
-The API container runs `alembic upgrade head` before starting Uvicorn.
+### Prerequisites
 
-### Local development
+Make sure you have the following installed:
 
-Create and activate a virtual environment, install dependencies, and configure `DATABASE_URL` in `.env` to point to a PostgreSQL database.
+- Python 3.12+
+- PostgreSQL (if running without Docker)
+- Docker and Docker Compose (recommended)
+
+### Installation with Docker
+
+**1. Clone the repository**
+
+```bash
+git clone https://github.com/JeanRibeiro8/api-monitor.git
+cd api-monitor
+```
+
+**2. Configure environment variables**
+
+```bash
+cp .env.example .env
+```
+
+Review the `.env` file and configure the required database settings.
+
+**3. Start the application**
+
+```bash
+docker compose up --build
+```
+
+The API container runs database migrations before starting the application.
+
+**4. Access the API documentation**
+
+Open the interactive Swagger documentation:
+
+```text
+http://localhost:8000/docs
+```
+
+### Local Development
+
+**1. Create and activate a virtual environment**
 
 ```bash
 python3.12 -m venv .venv
 source .venv/bin/activate
+```
+
+**2. Install dependencies**
+
+```bash
 pip install -r requirements.txt
+```
+
+**3. Configure environment variables**
+
+```bash
 cp .env.example .env
 ```
 
-Run migrations and start the API:
+Configure `DATABASE_URL` to point to your local PostgreSQL database. When using local PostgreSQL, use `localhost` instead of the Docker database hostname.
+
+**4. Run database migrations**
 
 ```bash
 alembic upgrade head
+```
+
+**5. Start the development server**
+
+```bash
 uvicorn app.main:app --reload
 ```
 
-For local PostgreSQL, replace the Docker hostname `db` in `DATABASE_URL` with `localhost`.
+The API will be available at:
 
-## API endpoints
+```text
+http://localhost:8000
+```
 
-| Method | Path | Purpose |
+Interactive documentation:
+
+```text
+http://localhost:8000/docs
+```
+
+## API Endpoints
+
+| Method | Endpoint | Description |
 |---|---|---|
 | POST | `/monitors` | Create a monitor |
-| GET | `/monitors` | List monitors |
+| GET | `/monitors` | List all monitors |
 | GET | `/monitors/{id}` | Retrieve a monitor |
 | PATCH | `/monitors/{id}` | Update a monitor |
 | DELETE | `/monitors/{id}` | Delete a monitor |
-| POST | `/monitors/{id}/check` | Run a manual check |
+| POST | `/monitors/{id}/check` | Execute a manual check |
 | GET | `/monitors/{id}/checks` | Retrieve check history |
 | GET | `/monitors/{id}/status` | Retrieve latest status |
-| GET | `/dashboard/summary` | Dashboard counters |
-| GET | `/health` | API and database health |
+| GET | `/dashboard/summary` | Retrieve dashboard counters |
+| GET | `/health` | Check API and database health |
 
-## Example request
+## Example Request
+
+Create a new monitor:
 
 ```bash
 curl -X POST http://localhost:8000/monitors \
   -H "Content-Type: application/json" \
-  -d '{"name":"Example","url":"https://example.com","check_interval":300}'
-```
-
-## Project structure
-
-```text
-app/
-  api/routes/       # HTTP endpoints
-  core/             # Application settings
-  db/models/        # SQLAlchemy models
-  repositories/     # Database access
-  schemas/          # Pydantic request/response schemas
-  services/         # Business logic and HTTP checks
-migrations/         # Alembic migrations
-tests/              # Automated tests
-.github/workflows/  # CI pipeline
+  -d '{
+    "name": "Example Website",
+    "url": "https://example.com",
+    "check_interval": 300
+  }'
 ```
 
 ## Testing
 
+Run the automated test suite with:
+
 ```bash
-pytest -q
+pytest -v
 ```
 
-Tests use an isolated in-memory SQLite database and mock external HTTP behavior; they do not require real external services.
+The tests use an isolated in-memory SQLite database and mock external HTTP behavior. They do not require real external services.
 
-## Security notes and limitations
+## Security Considerations and Limitations
 
-- URL checks reject localhost and non-public IP destinations after DNS resolution. This is a baseline SSRF defense, not a complete production-grade egress security boundary: DNS rebinding and redirect policies require additional hardening.
-- Redirects are disabled for checks to avoid following a target to an unvalidated destination.
-- Response reading is bounded to reduce unnecessary body transfer.
-- Automatic scheduling is not enabled in this initial release; `check_interval` is stored for a future scheduler implementation.
-- The included dashboard summary is intentionally basic.
+- URL validation rejects localhost and non-public IP destinations after DNS resolution.
+- Redirects are disabled during checks to avoid following unvalidated destinations.
+- Response reading is bounded to reduce unnecessary data transfer.
+- The current SSRF protections provide a baseline defense, not a complete production-grade security boundary.
+- Automatic background scheduling is not implemented yet. The configured `check_interval` is currently stored for future scheduling functionality.
+- The dashboard summary currently provides basic monitoring counters.
 
-## Future improvements
+## Future Improvements
 
-- Add a hardened outbound request layer with DNS pinning / egress restrictions.
-- Add background scheduling and bounded worker execution.
+- Implement automatic background monitoring and scheduled checks.
+- Improve outbound request security with DNS pinning and egress restrictions.
 - Add rolling uptime and latency statistics.
-- Add authentication, authorization, rate limiting, and operational metrics.
+- Introduce authentication and authorization.
+- Implement rate limiting and operational metrics.
 - Add integration tests against PostgreSQL.
 
-## License
-
-No license has been specified for this project.
+---
 
 <div align="center">
 
-Built as a Backend Python portfolio project.
+## Author
 
+**Jean Ribeiro**
+
+Backend Python Developer | Junior
+
+[![GitHub](https://img.shields.io/badge/GitHub-JeanRibeiro8-181717?style=flat-square&logo=github)](https://github.com/JeanRibeiro8)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/jean-ribeiro-9a3792267/)
+[![Portfolio](https://img.shields.io/badge/Portfolio-Visit-6C63FF?style=flat-square)](https://jeanribeiro8.github.io/JeanRibeiro/)
+[![Email](https://img.shields.io/badge/Email-Contact-EA4335?style=flat-square&logo=gmail&logoColor=white)](mailto:jeanrsantos10@gmail.com)
+
+<br />
 </div>
-# api-monitor
