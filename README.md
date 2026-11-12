@@ -23,6 +23,22 @@ Monitor external endpoints, measure response times, track availability, and main
 
 </div>
 
+
+---
+
+## 📸 Preview
+
+<div align="center">
+
+### Dashboard Preview
+
+![API Monitor Preview](./public/api-monitor.png)
+
+</div>
+
+> **Live Demo:** [https://]
+> **Repository:** [https://github.com/JeanRibeiro8/api-monitor]
+
 ---
 
 ## About the Project
